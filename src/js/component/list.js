@@ -7,10 +7,10 @@ export function List(props) {
 	const [verBorrar, setVerBorrar] = useState("d-none");
 	return (
 		<li className="list-group-item d-flex justify-content-between">
-			<p>{props.tareasPendientes}</p>
+			<p className="mb-0">{props.tareasPendientes}</p>
 			<div
 				onClick={() => props.borrarIDElement(props.idBorrar)}
-				className="cursor-pointer">
+				className="cursor-pointer text-danger">
 				<i className="far fa-trash-alt"></i>
 			</div>
 		</li>

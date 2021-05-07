@@ -5,6 +5,8 @@ export function Home() {
 	const [tarea, setTarea] = useState([""]);
 	const [tareasPendientes, setTareasPendientes] = useState([]);
 
+	/* ************************* METODO GET ************************* */
+
 	const getData = () => {
 		fetch("https://assets.breatheco.de/apis/fake/todos/user/martinCoimbra")
 			.then(resp => resp.json())
@@ -14,19 +16,13 @@ export function Home() {
 	useEffect(() => {
 		getData();
 	}, []);
+	/* ***************************************************************************** */
 
-	/* Cada ves que se ejecute una accion aplicar el PUT con sus nuevos valores */
-	useEffect(() => {
-		/* harias un post con tus nuevos valores al agregar y al borrar */
-		/* console.log(tareasPendientes + "tus tareas ahora"); */
-		console.log(tareasPendientes);
-	});
-
+	/* ************************* METODO PUT ************************* */
 	var myHeaders = new Headers();
 	myHeaders.append("Content-Type", "application/json");
 
 	var raw = JSON.stringify(tareasPendientes);
-
 	var requestOptions = {
 		method: "PUT",
 		headers: myHeaders,

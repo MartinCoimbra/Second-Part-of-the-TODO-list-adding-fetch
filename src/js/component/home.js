@@ -5,6 +5,45 @@ export function Home() {
 	const [tarea, setTarea] = useState([""]);
 	const [tareasPendientes, setTareasPendientes] = useState([]);
 
+	const getData = () => {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/martinCoimbra")
+			.then(resp => resp.json())
+			.then(resp => setTareasPendientes(resp))
+			.catch(error => console.log(true));
+	};
+	useEffect(() => {
+		getData();
+	}, []);
+
+	/* Cada ves que se ejecute una accion aplicar el PUT con sus nuevos valores */
+	useEffect(() => {
+		/* harias un post con tus nuevos valores al agregar y al borrar */
+		/* console.log(tareasPendientes + "tus tareas ahora"); */
+		console.log(tareasPendientes);
+	});
+
+	var myHeaders = new Headers();
+	myHeaders.append("Content-Type", "application/json");
+
+	var raw = JSON.stringify(tareasPendientes);
+
+	var requestOptions = {
+		method: "PUT",
+		headers: myHeaders,
+		body: raw,
+		redirect: "follow"
+	};
+
+	fetch(
+		"https://assets.breatheco.de/apis/fake/todos/user/martinCoimbra",
+		requestOptions
+	)
+		.then(response => response.text())
+		.then(result => console.log(result))
+		.catch(error => console.log("error", error));
+
+	/* ***************************************************************************** */
+
 	const borrarIDElement = idelement => {
 		let newArray = [];
 		console.log("tus tareas eran" + tareasPendientes);
@@ -19,7 +58,10 @@ export function Home() {
 	const agregarTarea = e => {
 		e.preventDefault();
 		if (tarea != "") {
-			setTareasPendientes([tarea, ...tareasPendientes]);
+			setTareasPendientes([
+				{ label: tarea, done: false },
+				...tareasPendientes
+			]);
 			console.log(tareasPendientes);
 			setTarea([""]);
 		}
@@ -52,7 +94,7 @@ export function Home() {
 							return (
 								<List
 									key={i}
-									tareasPendientes={element}
+									tareasPendientes={element.label}
 									idBorrar={i}
 									borrarIDElement={borrarIDElement}
 								/>
